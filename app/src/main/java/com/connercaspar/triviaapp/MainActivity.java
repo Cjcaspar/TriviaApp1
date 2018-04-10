@@ -1,6 +1,7 @@
 package com.connercaspar.triviaapp;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements QuestionCreatorFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ArrayList<Question> questionList = new ArrayList<Question>();
+        questionList = new ArrayList<>();
     }
 
     @OnClick(R.id.add_question_button)
@@ -59,20 +60,20 @@ public class MainActivity extends AppCompatActivity implements QuestionCreatorFr
     @OnClick(R.id.delete_quiz_button)
     protected void deleteQuizClicked() {
         AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
-        deleteDialog.setMessage("Are you sure you would like to delete this quiz?").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        deleteDialog.setMessage(R.string.quiz_retake).setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 questionList.clear();
                 Toast.makeText(MainActivity.this, "Quiz Deleted", Toast.LENGTH_SHORT).show();
             }
-        }).setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
-        });
-        AlertDialog dialog = deleteDialog.create();
-        dialog.show();
+        })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @Override
@@ -83,11 +84,27 @@ public class MainActivity extends AppCompatActivity implements QuestionCreatorFr
     }
 
     @Override
-    public void quizFinished() {
+    public void quizFinished(int correctAnswers) {
         getSupportFragmentManager().beginTransaction().remove(quizFragment).commit();
-        AlertDialog.Builder correctDialog = new AlertDialog.Builder(this);
-        correctDialog.setMessage(R.string.correctQuestions);
-        AlertDialog dialog = correctDialog.create();
-        dialog.show();
+//        AlertDialog.Builder correctDialog = new AlertDialog.Builder(this);
+//        String text = getString(R.string.correct_questions, correctAnswers);
+//        correctDialog.setMessage(text);
+//        AlertDialog dialog = correctDialog.create();
+//        dialog.show();
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Quiz Complete")
+                .setMessage(getResources().getString(R.string.correct_questions, String.valueOf(correctAnswers)))
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

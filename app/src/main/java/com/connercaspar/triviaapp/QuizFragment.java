@@ -140,9 +140,9 @@ public class QuizFragment extends Fragment {
     @OnClick(R.id.question_submit_button)
     protected void nextButtonClicked() {
         enableButtons();
-        if (questionListPosition > questionList.size())
+        if (questionListPosition >= questionList.size())
         {
-            quizCallback.quizFinished();
+            quizCallback.quizFinished(correctAnswers);
         } else {
             populateQuizContent();
         }
@@ -151,7 +151,7 @@ public class QuizFragment extends Fragment {
 
 
     public interface QuizCallback {
-        void quizFinished();
+        void quizFinished(int correctAnswers);
     }
 
     public void attachView(QuizCallback quizCallback){
