@@ -17,8 +17,9 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Question"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Question"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +32,8 @@
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Correct Answer"
+        android:text=""
+        android:hint="Correct answer"
         app:layout_constraintBottom_toTopOf="@+id/wrong1_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -45,7 +47,8 @@
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Wrong Answer"
+        android:text=""
+        android:hint="Wrong Answer"
         app:layout_constraintBottom_toTopOf="@+id/wrong2_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -59,7 +62,8 @@
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Wrong Answer"
+        android:text=""
+        android:hint="Wrong Answer"
         app:layout_constraintBottom_toTopOf="@+id/wrong3_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,7 +77,8 @@
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Wrong Answer"
+        android:text=""
+        android:hint="Wrong Answer"
         app:layout_constraintBottom_toTopOf="@+id/save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -1,6 +1,8 @@
 package com.connercaspar.triviaapp;
 
+import android.content.DialogInterface;
 import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -54,6 +56,25 @@ public class MainActivity extends AppCompatActivity implements QuestionCreatorFr
         }
     }
 
+    @OnClick(R.id.delete_quiz_button)
+    protected void deleteQuizClicked() {
+        AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
+        deleteDialog.setMessage("Are you sure you would like to delete this quiz?").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                questionList.clear();
+                Toast.makeText(MainActivity.this, "Quiz Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = deleteDialog.create();
+        dialog.show();
+    }
+
     @Override
     public void saveQuestion(Question question) {
         questionList.add(question);
@@ -61,4 +82,12 @@ public class MainActivity extends AppCompatActivity implements QuestionCreatorFr
         getSupportFragmentManager().beginTransaction().remove(questionCreatorFragment).commit();
     }
 
+    @Override
+    public void quizFinished() {
+        getSupportFragmentManager().beginTransaction().remove(quizFragment).commit();
+        AlertDialog.Builder correctDialog = new AlertDialog.Builder(this);
+        correctDialog.setMessage(R.string.correctQuestions);
+        AlertDialog dialog = correctDialog.create();
+        dialog.show();
+    }
 }

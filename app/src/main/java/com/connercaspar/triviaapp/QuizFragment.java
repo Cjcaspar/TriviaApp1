@@ -3,6 +3,7 @@ package com.connercaspar.triviaapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,20 @@ public class QuizFragment extends Fragment {
         return fragment;
     }
 
+    private void disableButtons() {
+        quizButtonOne.setClickable(false);
+        quizButtonTwo.setClickable(false);
+        quizButtonThree.setClickable(false);
+        quizButtonFour.setClickable(false);
+    }
+
+    private void enableButtons() {
+        quizButtonOne.setClickable(true);
+        quizButtonTwo.setClickable(true);
+        quizButtonThree.setClickable(true);
+        quizButtonFour.setClickable(true);
+    }
+
     private void populateQuizContent() {
         question = questionList.get(questionListPosition);
 
@@ -111,6 +126,7 @@ public class QuizFragment extends Fragment {
 
     private void checkAnswer(String answer) {
         questionListPosition++;
+        disableButtons();
         if (question.getCorrectAnswer().toString().equals(answer)) {
             quizQuestion.setText("That is correct!");
             Toast.makeText(getActivity(), "That is correct!", Toast.LENGTH_SHORT).show();
@@ -122,12 +138,20 @@ public class QuizFragment extends Fragment {
     }
 
     @OnClick(R.id.question_submit_button)
-    private void nextButtonClicked() {
+    protected void nextButtonClicked() {
+        enableButtons();
+        if (questionListPosition > questionList.size())
+        {
+            quizCallback.quizFinished();
+        } else {
+            populateQuizContent();
+        }
 
     }
 
-    public interface QuizCallback {
 
+    public interface QuizCallback {
+        void quizFinished();
     }
 
     public void attachView(QuizCallback quizCallback){
